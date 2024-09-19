@@ -1,0 +1,29 @@
+version: "3.6"
+
+services:
+  etcd:
+    image: gcr.io/etcd-development/etcd:v3.4.15
+    #name: etcd-gcr-v3.4.15
+    ports:
+      - 2379:2379
+    expose:
+      - 2379
+      - 2380
+    # volumes:
+    #   - type: bind
+    #     source: /tmp/etcd-data.tmp
+    #     target: /etcd-data
+    command:
+      - /usr/local/bin/etcd
+      - --name=s1
+      - --data-dir=/etcd-data
+      - --listen-client-urls=http://0.0.0.0:2379
+      - --advertise-client-urls=http://0.0.0.0:2379
+      - --listen-peer-urls=http://0.0.0.0:2380
+      - --initial-advertise-peer-urls=http://0.0.0.0:2380
+      - --initial-cluster=s1=http://0.0.0.0:2380
+      - --initial-cluster-token=tkn
+      - --initial-cluster-state=new
+      - --log-level=info
+      - --logger=zap
+      - --log-outputs=stderr
