@@ -1,0 +1,11 @@
+services:
+  nominatim:
+    image: mediagis/nominatim:4.5
+    container_name: nominatim
+    environment:
+      - PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+      - REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/
+    ports:
+      - "6080:8080"
+    stdin_open: true
+    tty: true

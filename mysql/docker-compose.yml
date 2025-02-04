@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    #构建mysql镜像
+    image: mysql
+    container_name: fuxing-mysql # 容器名
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci #设置utf8字符集
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root #root 管理员用户密码
+      MYSQL_USER: admin         #创建 admin 用户
+      MYSQL_PASSWORD: password  #设置 admin 用户的密码
+      MYSQL_DATABASE: fuxingmsn_crm
+    ports:
+      - '3306:3306'  #host物理直接映射端口为 3306
+    volumes:
+        # mysql数据库挂载到host物理机目录/e/docker/mysql/data/db
+      - "/var/lib/docker/mysql/data/db:/var/lib/mysql"  
+        # 容器的配置目录挂载到host物理机目录/e/docker/mysql/data/conf  
+      # - "/var/lib/docker/mysql/data/conf:/etc/mysql/conf.d"

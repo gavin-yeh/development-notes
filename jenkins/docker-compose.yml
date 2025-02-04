@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  jenkins:
+    container_name: jenkins-project
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      # 以下為宿主機命令映射入容器中
+      - /usr/bin/docker:/usr/bin/docker
+      - /usr/bin/make:/usr/bin/make
+      - /usr/bin/go:/usr/bin/go

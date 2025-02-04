@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  demeter-arangodb:
+    image: arangodb:latest
+    restart: always
+    environment:
+      #ARANGO_ROOT_PASSWORD:  # 密碼
+      ARANGO_NO_AUTH: 1
+
+    ports:
+      - 8529:8529
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+
+volumes:
+  arangodb_data_container:
+  arangodb_apps_data_container:
+

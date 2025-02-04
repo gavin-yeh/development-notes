@@ -1,0 +1,21 @@
+services:
+  nominatim:
+    image: mediagis/nominatim:4.5
+    container_name: nominatim
+    restart: always
+    shm_size: '2g'   # 增加共享內存大小。 Nominatim 在處理地圖數據時，會頻繁使用 PostgreSQL 與共享內存，因此增加共享內存有助於避免性能瓶頸。
+    environment:
+      - PBF_PATH=/app/merged.osm.pbf
+      - NOMINATIM_PASSWORD=nominatim
+      - REVERSE_ONLY=true               # 僅進行反向查找
+      - IMPORT_STYLE=admin              # 僅導入行政邊界和地點
+      - THREADS=24                      # 匯入執行序數量
+    ports:
+      - "6080:8080"
+      - "5432:5432"
+    volumes:
+      - ./volume/nominatim-flatnode:/nominatim/flatnode     # flatnode檔案的儲存位置
+      - ./volume/nominatim-data:/var/lib/postgresql/16/main # Postgres資料庫的儲存位置&保存導入是否成功的狀態
+      - ./monaco-latest.osm.pbf:/app/merged.osm.pbf
+    stdin_open: true
+    tty: true
